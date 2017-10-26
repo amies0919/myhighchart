@@ -17537,7 +17537,7 @@
                 chart = this.series.chart;
 
             return this.sliced || !this.visible ? [] : this.series.chart.renderer.symbols.arc(chart.plotLeft + shapeArgs.x, chart.plotTop + shapeArgs.y, shapeArgs.r + size, shapeArgs.r + size, {
-                innerR: this.shapeArgs.r-1,
+                innerR: chart.options.chart.szPie?this.shapeArgs.r-1:this.shapeArgs.r,
                 start: shapeArgs.start,
                 end: shapeArgs.end
             });
