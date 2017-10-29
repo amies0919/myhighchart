@@ -3,12 +3,38 @@
  */
 $(document).on('ready', function () {
     var chart = null;
+    function showBorder () {
+        var point = this,
+            series = point.series,
+            options = series.options.hoverBorder,
+            shapeArgs = point.shapeArgs,
+            graphic = point.graphic,
+            renderer = graphic.renderer;
+        var newShapeArgs = {
+            x: shapeArgs.x,
+            y: shapeArgs.y,
+            r: shapeArgs.r + options.radius,
+            innerR: shapeArgs.r - 40,
+            start: shapeArgs.start,
+            end: shapeArgs.end
+        };
+        var color = options.color || Highcharts.Color(point.color).setOpacity(options.opacity).get();
+        
+        if (!this.series.borderGraphic) {
+            this.series.borderGraphic = renderer.arc(newShapeArgs)
+                .attr({fill: color,stroke: '#FFFFFF', 'stroke-width': 5}).add(graphic.parentGroup);
+        }
+        else {
+            this.series.borderGraphic.attr({fill: color}).attr(newShapeArgs);
+        }
+    }
     $(function () {
         $('#container').highcharts({
             chart: {
                 plotBackgroundColor: null,
                 plotBorderWidth: null,
                 plotShadow: false,
+                szPie: 1
                 // spacing : [100, 0 , 40, 0]
             },
             title: {
@@ -32,21 +58,16 @@ $(document).on('ready', function () {
                     },
                     point: {
                         events: {
-                            mouseOver: function(e) {  // 鼠标滑过时动态更新标题
-                                // // 标题更新函数，API 地址：https://api.hcharts.cn/highcharts#Chart.setTitle
-                                // chart.setTitle({
-                                //     text: e.target.name+ '\t'+ e.target.y + ' %'
-                                // });
-                            }
-                            //,
-                            // click: function(e) { // 同样的可以在点击事件里处理
-                            //     chart.setTitle({
-                            //         text: e.point.name+ '\t'+ e.point.y + ' %'
-                            //     });
-                            // }
+                            mouseOver: showBorder
+            
                         }
                     },
-                    borderWidth:0,
+                    hoverBorder: {
+                        radius: 15,
+                        opacity: 1,
+                        //color: 'black'
+                    },
+                    borderWidth:5,
                     slicedOffset: 1
                 },
                 series: {
@@ -55,10 +76,10 @@ $(document).on('ready', function () {
                             // enabled: true,
                             brightness:0,
                             lineWidthPlus:30,
-                            halo:{
-                                size:6,
-                                opacity:1
-                            }
+                            // halo:{
+                                // size:6,
+                                // opacity:1
+                            // }
                         },
                         select:{
                             marker: {
@@ -76,8 +97,7 @@ $(document).on('ready', function () {
                     {
                         name:'APP',
                         y:52652,
-                        sliced:true,
-                        selected: false
+                        
                     },
                     ['PC',17025],
                     ['微信', 2393],
