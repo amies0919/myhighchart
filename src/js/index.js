@@ -4,6 +4,7 @@
 $(document).on('ready', function () {
     var chart = null;
     function showBorder () {
+        console.log("mouse over")
         var point = this,
             series = point.series,
             options = series.options.hoverBorder,
@@ -23,6 +24,7 @@ $(document).on('ready', function () {
         if (!this.series.borderGraphic) {
             this.series.borderGraphic = renderer.arc(newShapeArgs)
                 .attr({fill: color,stroke: '#FFFFFF', 'stroke-width': 5}).add(graphic.parentGroup);
+            console.log(this.series.borderGraphic);
         }
         else {
             this.series.borderGraphic.attr({fill: color}).attr(newShapeArgs);
@@ -58,8 +60,15 @@ $(document).on('ready', function () {
                     },
                     point: {
                         events: {
-                            mouseOver: showBorder
-            
+                            mouseOver: showBorder,
+                            mouseOut: function () {
+                                console.log("mouse out")
+                                console.log(this.series.borderGraphic);
+                                if (this.series.borderGraphic) {
+                                    this.series.borderGraphic.destroy()
+                                    this.series.borderGraphic = null;
+                                }
+                            }
                         }
                     },
                     hoverBorder: {
