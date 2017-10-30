@@ -38,6 +38,7 @@ $(document).on('ready', function () {
                 plotShadow: false,
                 szPie: 1
                 // spacing : [100, 0 , 40, 0]
+                szPie:1
             },
             title: {
                 // floating:true,
@@ -71,12 +72,16 @@ $(document).on('ready', function () {
                             }
                         }
                     },
+<<<<<<< HEAD
                     hoverBorder: {
                         radius: 15,
                         opacity: 1,
                         //color: 'black'
                     },
                     borderWidth:5,
+=======
+                    borderWidth:3,
+>>>>>>> 4f9a32acdd063a2b9fdce09c0f5254ecde3811dd
                     slicedOffset: 1
                 },
                 series: {
@@ -106,7 +111,8 @@ $(document).on('ready', function () {
                     {
                         name:'APP',
                         y:52652,
-                        
+                        // sliced:true,
+                        // selected: false
                     },
                     ['PC',17025],
                     ['微信', 2393],

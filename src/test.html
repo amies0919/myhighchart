@@ -1,0 +1,94 @@
+<html>
+<head>
+    <title>Pie Shaded Border</title>
+    <script type="text/javascript" src="./js/lib/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="./js/lib/highcharts.js"></script>
+    <script>
+        $(function () {
+            var seri = null;
+            function showBorder () {
+                var point = this,
+                    series = point.series,
+                    options = series.options.hoverBorder,
+                    shapeArgs = point.shapeArgs,
+                    graphic = point.graphic,
+                    renderer = graphic.renderer;
+                    var border = 2,angle = Math.sin(Math.PI/(180*border));
+
+                var newShapeArgs = {
+                    x: shapeArgs.x,
+                    y: shapeArgs.y,
+                    r: shapeArgs.r + options.radius,
+                    innerR: shapeArgs.r-2,
+                    start: shapeArgs.start+ angle,
+                    end: shapeArgs.end-angle
+                };
+                var color = options.color || Highcharts.Color(point.color).setOpacity(options.opacity).get();
+
+                if (!this.series.borderGraphic) {
+                    this.series.borderGraphic = renderer.arc(newShapeArgs)
+                        .attr({fill: color}).add(graphic.parentGroup);
+                }
+                else {
+                    this.series.borderGraphic.attr({fill: color}).attr(newShapeArgs);
+                }
+                seri = this.series.borderGraphic;
+            }
+            function hideBorder() {
+                seri.attr({fill:'#fff'});
+            }
+            $('#container').highcharts(
+                {
+                    chart: {
+                        type: 'pie'
+                    },
+                    title: {
+                        text: ' '
+                    },
+                    plotOptions: {
+                        pie: {
+                            borderWidth:2,
+                            allowPointSelect: true,
+                            dataLabels: {
+                                enabled: false
+                            },
+                            hoverBorder: {
+                                radius: 4,
+                                opacity: 1,
+                                //color: 'black'
+                            },
+                            point: {
+                                events: {
+                                    mouseOver: showBorder,
+                                    mouseOut:hideBorder
+                                }
+                            }
+                        },
+                        series: {
+                            states: {
+                                hover: {
+                                    brightness:0,
+                                    halo:{
+                                        size:0
+                                    }
+                                }
+                            }
+                        }
+
+                    },
+                    series: [
+                        {
+                            innerSize: '60%',
+                            data: [1,2,3,2,3]
+                        }
+                    ]
+                });
+        });
+    </script>
+</head>
+
+<body>
+<div id="container" style="height:382px; width:180px;"></div>
+</body>
+
+</html>
