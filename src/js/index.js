@@ -10,6 +10,7 @@ $(document).on('ready', function () {
                 plotBorderWidth: null,
                 plotShadow: false,
                 // spacing : [100, 0 , 40, 0]
+                szPie:1
             },
             title: {
                 // floating:true,
@@ -46,7 +47,7 @@ $(document).on('ready', function () {
                             // }
                         }
                     },
-                    borderWidth:0,
+                    borderWidth:3,
                     slicedOffset: 1
                 },
                 series: {
@@ -76,8 +77,8 @@ $(document).on('ready', function () {
                     {
                         name:'APP',
                         y:52652,
-                        sliced:true,
-                        selected: false
+                        // sliced:true,
+                        // selected: false
                     },
                     ['PC',17025],
                     ['微信', 2393],
